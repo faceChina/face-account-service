@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjlp.face.account.mapper.WithdrawRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zjlp.face.account.domain.WithdrawRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="REMOTE_ID" property="remoteId" jdbcType="VARCHAR" />
+    <result column="REMOTE_TYPE" property="remoteType" jdbcType="INTEGER" />
+    <result column="SERI_NUMBER" property="seriNumber" jdbcType="VARCHAR" />
+    <result column="BANK_SERI_NUMBER" property="bankSeriNumber" jdbcType="VARCHAR" />
+    <result column="ELEC_BK_NO" property="elecBkNo" jdbcType="VARCHAR" />
+    <result column="WITHDRAW_PRICE" property="withdrawPrice" jdbcType="BIGINT" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="PAY_BANK_CARD" property="payBankCard" jdbcType="VARCHAR" />
+    <result column="RECIVE_BANK_CARD" property="reciveBankCard" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="RECIVE_BANK_NAME" property="reciveBankName" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="CURRENCY_TYPE" property="currencyType" jdbcType="CHAR" />
+    <result column="SERVICE_TYPE" property="serviceType" jdbcType="INTEGER" />
+    <result column="WITHDRAW_TYPE" property="withdrawType" jdbcType="CHAR" />
+    <result column="EMERGENCY_DEGREE" property="emergencyDegree" jdbcType="INTEGER" />
+    <result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="AMOUNT_AFTER" property="amountAfter" jdbcType="BIGINT" />
+    <result column="SETTLE_DATE" property="settleDate" jdbcType="VARCHAR" />
+    <result column="WITHDRAW_INFO" property="withdrawInfo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.zjlp.face.account.dto.WithdrawRecordDto" id="DtoResultMap" extends="BaseResultMap">
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REMOTE_ID, REMOTE_TYPE, SERI_NUMBER, BANK_SERI_NUMBER, ELEC_BK_NO, WITHDRAW_PRICE, 
+    STATUS, PAY_BANK_CARD, RECIVE_BANK_CARD, USER_NAME, RECIVE_BANK_NAME, PROVINCE, CITY, 
+    CURRENCY_TYPE, SERVICE_TYPE, WITHDRAW_TYPE, EMERGENCY_DEGREE, PURPOSE, BANK_CODE, 
+    AMOUNT_AFTER, SETTLE_DATE, WITHDRAW_INFO, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from withdraw_record
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from withdraw_record
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zjlp.face.account.domain.WithdrawRecord" >
+    insert into withdraw_record (ID, REMOTE_ID, REMOTE_TYPE, 
+      SERI_NUMBER, BANK_SERI_NUMBER, ELEC_BK_NO, 
+      WITHDRAW_PRICE, STATUS, PAY_BANK_CARD, 
+      RECIVE_BANK_CARD, USER_NAME, RECIVE_BANK_NAME, 
+      PROVINCE, CITY, CURRENCY_TYPE, 
+      SERVICE_TYPE, WITHDRAW_TYPE, EMERGENCY_DEGREE, 
+      PURPOSE, BANK_CODE, AMOUNT_AFTER, 
+      SETTLE_DATE, WITHDRAW_INFO, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{remoteId,jdbcType=VARCHAR}, #{remoteType,jdbcType=INTEGER}, 
+      #{seriNumber,jdbcType=VARCHAR}, #{bankSeriNumber,jdbcType=VARCHAR}, #{elecBkNo,jdbcType=VARCHAR}, 
+      #{withdrawPrice,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{payBankCard,jdbcType=VARCHAR}, 
+      #{reciveBankCard,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{reciveBankName,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{currencyType,jdbcType=CHAR}, 
+      #{serviceType,jdbcType=INTEGER}, #{withdrawType,jdbcType=CHAR}, #{emergencyDegree,jdbcType=INTEGER}, 
+      #{purpose,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, #{amountAfter,jdbcType=BIGINT}, 
+      #{settleDate,jdbcType=VARCHAR}, #{withdrawInfo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zjlp.face.account.domain.WithdrawRecord" >
+    insert into withdraw_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="remoteId != null" >
+        REMOTE_ID,
+      </if>
+      <if test="remoteType != null" >
+        REMOTE_TYPE,
+      </if>
+      <if test="seriNumber != null" >
+        SERI_NUMBER,
+      </if>
+      <if test="bankSeriNumber != null" >
+        BANK_SERI_NUMBER,
+      </if>
+      <if test="elecBkNo != null" >
+        ELEC_BK_NO,
+      </if>
+      <if test="withdrawPrice != null" >
+        WITHDRAW_PRICE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="payBankCard != null" >
+        PAY_BANK_CARD,
+      </if>
+      <if test="reciveBankCard != null" >
+        RECIVE_BANK_CARD,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="reciveBankName != null" >
+        RECIVE_BANK_NAME,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="currencyType != null" >
+        CURRENCY_TYPE,
+      </if>
+      <if test="serviceType != null" >
+        SERVICE_TYPE,
+      </if>
+      <if test="withdrawType != null" >
+        WITHDRAW_TYPE,
+      </if>
+      <if test="emergencyDegree != null" >
+        EMERGENCY_DEGREE,
+      </if>
+      <if test="purpose != null" >
+        PURPOSE,
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE,
+      </if>
+      <if test="amountAfter != null" >
+        AMOUNT_AFTER,
+      </if>
+      <if test="settleDate != null" >
+        SETTLE_DATE,
+      </if>
+      <if test="withdrawInfo != null" >
+        WITHDRAW_INFO,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="remoteId != null" >
+        #{remoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteType != null" >
+        #{remoteType,jdbcType=INTEGER},
+      </if>
+      <if test="seriNumber != null" >
+        #{seriNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankSeriNumber != null" >
+        #{bankSeriNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="elecBkNo != null" >
+        #{elecBkNo,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawPrice != null" >
+        #{withdrawPrice,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payBankCard != null" >
+        #{payBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="reciveBankCard != null" >
+        #{reciveBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="reciveBankName != null" >
+        #{reciveBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyType != null" >
+        #{currencyType,jdbcType=CHAR},
+      </if>
+      <if test="serviceType != null" >
+        #{serviceType,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawType != null" >
+        #{withdrawType,jdbcType=CHAR},
+      </if>
+      <if test="emergencyDegree != null" >
+        #{emergencyDegree,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null" >
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amountAfter != null" >
+        #{amountAfter,jdbcType=BIGINT},
+      </if>
+      <if test="settleDate != null" >
+        #{settleDate,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawInfo != null" >
+        #{withdrawInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjlp.face.account.domain.WithdrawRecord" >
+    update withdraw_record
+    <set >
+      <if test="remoteId != null" >
+        REMOTE_ID = #{remoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteType != null" >
+        REMOTE_TYPE = #{remoteType,jdbcType=INTEGER},
+      </if>
+      <if test="seriNumber != null" >
+        SERI_NUMBER = #{seriNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankSeriNumber != null" >
+        BANK_SERI_NUMBER = #{bankSeriNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="elecBkNo != null" >
+        ELEC_BK_NO = #{elecBkNo,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawPrice != null" >
+        WITHDRAW_PRICE = #{withdrawPrice,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payBankCard != null" >
+        PAY_BANK_CARD = #{payBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="reciveBankCard != null" >
+        RECIVE_BANK_CARD = #{reciveBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="reciveBankName != null" >
+        RECIVE_BANK_NAME = #{reciveBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyType != null" >
+        CURRENCY_TYPE = #{currencyType,jdbcType=CHAR},
+      </if>
+      <if test="serviceType != null" >
+        SERVICE_TYPE = #{serviceType,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawType != null" >
+        WITHDRAW_TYPE = #{withdrawType,jdbcType=CHAR},
+      </if>
+      <if test="emergencyDegree != null" >
+        EMERGENCY_DEGREE = #{emergencyDegree,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null" >
+        PURPOSE = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amountAfter != null" >
+        AMOUNT_AFTER = #{amountAfter,jdbcType=BIGINT},
+      </if>
+      <if test="settleDate != null" >
+        SETTLE_DATE = #{settleDate,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawInfo != null" >
+        WITHDRAW_INFO = #{withdrawInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zjlp.face.account.domain.WithdrawRecord" >
+    update withdraw_record
+    set REMOTE_ID = #{remoteId,jdbcType=VARCHAR},
+      REMOTE_TYPE = #{remoteType,jdbcType=INTEGER},
+      SERI_NUMBER = #{seriNumber,jdbcType=VARCHAR},
+      BANK_SERI_NUMBER = #{bankSeriNumber,jdbcType=VARCHAR},
+      ELEC_BK_NO = #{elecBkNo,jdbcType=VARCHAR},
+      WITHDRAW_PRICE = #{withdrawPrice,jdbcType=BIGINT},
+      STATUS = #{status,jdbcType=INTEGER},
+      PAY_BANK_CARD = #{payBankCard,jdbcType=VARCHAR},
+      RECIVE_BANK_CARD = #{reciveBankCard,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      RECIVE_BANK_NAME = #{reciveBankName,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      CURRENCY_TYPE = #{currencyType,jdbcType=CHAR},
+      SERVICE_TYPE = #{serviceType,jdbcType=INTEGER},
+      WITHDRAW_TYPE = #{withdrawType,jdbcType=CHAR},
+      EMERGENCY_DEGREE = #{emergencyDegree,jdbcType=INTEGER},
+      PURPOSE = #{purpose,jdbcType=VARCHAR},
+      BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      AMOUNT_AFTER = #{amountAfter,jdbcType=BIGINT},
+      SETTLE_DATE = #{settleDate,jdbcType=VARCHAR},
+      WITHDRAW_INFO = #{withdrawInfo,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 提现：通过流水号检索记录 -->
+  <select id="selectBySeriNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from withdraw_record
+  	where SERI_NUMBER = #{transferSerino, jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 提现：更新记录状态 -->
+  <update id="updateStateById" parameterType="com.zjlp.face.account.domain.WithdrawRecord">
+  	update withdraw_record
+  	<set>
+  		STATUS = #{status,jdbcType=INTEGER},
+  		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+  		<if test="settleDate != null">
+  			SETTLE_DATE = #{settleDate,jdbcType=VARCHAR},
+  		</if>
+  		<if test="withdrawInfo != null">
+  			WITHDRAW_INFO = #{withdrawInfo,jdbcType=VARCHAR},
+  		</if>
+  	</set>
+  	where ID = #{id, jdbcType=BIGINT}
+  </update> 
+  
+  <update id="editRecordBalanceAf" parameterType="com.zjlp.face.account.domain.WithdrawRecord">
+      UPDATE 
+          WITHDRAW_RECORD
+      SET 
+          AMOUNT_AFTER = #{amountAfter,jdbcType=BIGINT},
+          UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+          SERI_NUMBER = #{seriNumber,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.zjlp.face.account.dto.WithdrawRecordDto">
+      SELECT
+          COUNT(1)
+      FROM
+          WITHDRAW_RECORD
+      WHERE
+          REMOTE_ID = #{remoteId, jdbcType=VARCHAR}
+          AND REMOTE_TYPE = #{remoteType, jdbcType=INTEGER}
+      	  <if test="aide.startTime != null">
+      	      <![CDATA[ AND CREATE_TIME >= #{aide.startTime,jdbcType=TIMESTAMP} ]]>
+      	  </if>
+      	  <if test="aide.endTime != null">
+      	      <![CDATA[ AND CREATE_TIME < #{aide.endTime,jdbcType=TIMESTAMP} ]]>
+      	  </if>
+      	  <if test="status != null">
+      	      AND STATUS = #{status,jdbcType=INTEGER}
+      	  </if>
+  </select>
+  
+  <select id="selectPageList" resultMap="DtoResultMap" parameterType="com.zjlp.face.account.dto.WithdrawRecordDto">
+      SELECT
+          SERI_NUMBER, WITHDRAW_PRICE, STATUS, RECIVE_BANK_CARD, RECIVE_BANK_NAME, CREATE_TIME
+      FROM
+          WITHDRAW_RECORD
+      WHERE
+          REMOTE_ID = #{remoteId, jdbcType=VARCHAR}
+          AND REMOTE_TYPE = #{remoteType, jdbcType=INTEGER}
+      	  <if test="aide.startTime != null">
+      	      <![CDATA[ AND CREATE_TIME >= #{aide.startTime,jdbcType=TIMESTAMP} ]]>
+      	  </if>
+      	  <if test="aide.endTime != null">
+      	      <![CDATA[ AND CREATE_TIME < #{aide.endTime,jdbcType=TIMESTAMP} ]]>
+      	  </if>
+      	  <if test="status != null">
+      	      AND STATUS = #{status,jdbcType=INTEGER}
+      	  </if>
+      ORDER BY CREATE_TIME DESC
+      LIMIT #{aide.startNum}, #{aide.pageSizeNum}
+  </select>
+  
+  <update id="updateStatesBySerialNo" parameterType="com.zjlp.face.account.domain.WithdrawRecord">
+      UPDATE WITHDRAW_RECORD
+  	  <set>
+  		  STATUS = #{status,jdbcType=INTEGER},
+  		  UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+  		  <if test="settleDate != null">
+  			  SETTLE_DATE = #{settleDate,jdbcType=VARCHAR},
+  		  </if>
+  		  <if test="withdrawInfo != null">
+  			  WITHDRAW_INFO = #{withdrawInfo,jdbcType=VARCHAR},
+  		  </if>
+  	  </set>
+  	  WHERE SERI_NUMBER = #{seriNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

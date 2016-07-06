@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjlp.face.account.mapper.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.zjlp.face.account.domain.Account" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="REMOTE_ID" property="remoteId" jdbcType="VARCHAR" />
+    <result column="REMOTE_TYPE" property="remoteType" jdbcType="INTEGER" />
+    <result column="TYPE" property="type" jdbcType="INTEGER" />
+    <result column="WITHDRAW_AMOUNT" property="withdrawAmount" jdbcType="BIGINT" />
+    <result column="WITHDRAW_COMMISSION" property="withdrawCommission" jdbcType="BIGINT" />
+    <result column="CONSUME_AMOUNT" property="consumeAmount" jdbcType="BIGINT" />
+    <result column="FREEZE_AMOUNT" property="freezeAmount" jdbcType="BIGINT" />
+    <result column="MARGIN" property="margin" jdbcType="BIGINT" />
+    <result column="PAYMENT_CODE" property="paymentCode" jdbcType="VARCHAR" />
+    <result column="WITHDRAW_DATE" property="withdrawDate" jdbcType="VARCHAR" />
+    <result column="WITHDRAW_COUNT" property="withdrawCount" jdbcType="INTEGER" />
+    <result column="SLCOIN_AMOUNT" property="slcoinAmount" jdbcType="INTEGER" />
+    <result column="SYSTEM_CODE" property="systemCode" jdbcType="CHAR" />
+    <result column="INVITATION_CODE" property="invitationCode" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="CELL" property="cell" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="TOSEND_AMOUNT" property="tosendAmount" jdbcType="BIGINT" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REMOTE_ID, REMOTE_TYPE, TYPE, WITHDRAW_AMOUNT, WITHDRAW_COMMISSION, CONSUME_AMOUNT, 
+    FREEZE_AMOUNT, MARGIN, PAYMENT_CODE, WITHDRAW_DATE, WITHDRAW_COUNT, SLCOIN_AMOUNT, SYSTEM_CODE, 
+    INVITATION_CODE, NAME, TELEPHONE, CELL, EMAIL, TOSEND_AMOUNT, UPDATE_TIME, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from account
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zjlp.face.account.domain.Account" >
+    insert into account (ID, REMOTE_ID, REMOTE_TYPE, 
+      TYPE, WITHDRAW_AMOUNT, WITHDRAW_COMMISSION, 
+      CONSUME_AMOUNT, FREEZE_AMOUNT, MARGIN, 
+      PAYMENT_CODE, WITHDRAW_DATE, WITHDRAW_COUNT, SLCOIN_AMOUNT,
+      SYSTEM_CODE, INVITATION_CODE, NAME, 
+      TELEPHONE, CELL, EMAIL, 
+      TOSEND_AMOUNT, UPDATE_TIME, CREATE_TIME
+      )
+    values (#{id,jdbcType=BIGINT}, #{remoteId,jdbcType=VARCHAR}, #{remoteType,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{withdrawAmount,jdbcType=BIGINT}, #{withdrawCommission,jdbcType=BIGINT}, 
+      #{consumeAmount,jdbcType=BIGINT}, #{freezeAmount,jdbcType=BIGINT}, #{margin,jdbcType=BIGINT}, 
+      #{paymentCode,jdbcType=VARCHAR}, #{withdrawDate,jdbcType=VARCHAR}, #{withdrawCount,jdbcType=INTEGER}, #{slcoinAmount,jdbcType=INTEGER},
+      #{systemCode,jdbcType=CHAR}, #{invitationCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{cell,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{tosendAmount,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zjlp.face.account.domain.Account" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER">  
+        SELECT LAST_INSERT_ID();  
+    </selectKey>
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="remoteId != null" >
+        REMOTE_ID,
+      </if>
+      <if test="remoteType != null" >
+        REMOTE_TYPE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="withdrawAmount != null" >
+        WITHDRAW_AMOUNT,
+      </if>
+      <if test="withdrawCommission != null" >
+        WITHDRAW_COMMISSION,
+      </if>
+      <if test="consumeAmount != null" >
+        CONSUME_AMOUNT,
+      </if>
+      <if test="freezeAmount != null" >
+        FREEZE_AMOUNT,
+      </if>
+      <if test="margin != null" >
+        MARGIN,
+      </if>
+      <if test="paymentCode != null" >
+        PAYMENT_CODE,
+      </if>
+      <if test="withdrawDate != null" >
+        WITHDRAW_DATE,
+      </if>
+      <if test="withdrawCount != null" >
+        WITHDRAW_COUNT,
+      </if>
+      <if test="slcoinAmount != null">
+      	SLCOIN_AMOUNT,
+      </if>
+      <if test="systemCode != null" >
+        SYSTEM_CODE,
+      </if>
+      <if test="invitationCode != null" >
+        INVITATION_CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="cell != null" >
+        CELL,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="tosendAmount != null" >
+        TOSEND_AMOUNT,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="remoteId != null" >
+        #{remoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteType != null" >
+        #{remoteType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawAmount != null" >
+        #{withdrawAmount,jdbcType=BIGINT},
+      </if>
+      <if test="withdrawCommission != null" >
+        #{withdrawCommission,jdbcType=BIGINT},
+      </if>
+      <if test="consumeAmount != null" >
+        #{consumeAmount,jdbcType=BIGINT},
+      </if>
+      <if test="freezeAmount != null" >
+        #{freezeAmount,jdbcType=BIGINT},
+      </if>
+      <if test="margin != null" >
+        #{margin,jdbcType=BIGINT},
+      </if>
+      <if test="paymentCode != null" >
+        #{paymentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawDate != null" >
+        #{withdrawDate,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawCount != null" >
+        #{withdrawCount,jdbcType=INTEGER},
+      </if>
+      <if test="slcoinAmount != null">
+      	#{slcoinAmount,jdbcType=INTEGER},
+      </if>
+      <if test="systemCode != null" >
+        #{systemCode,jdbcType=CHAR},
+      </if>
+      <if test="invitationCode != null" >
+        #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="cell != null" >
+        #{cell,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="tosendAmount != null" >
+        #{tosendAmount,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjlp.face.account.domain.Account" >
+    update account
+    <set >
+      <if test="remoteId != null" >
+        REMOTE_ID = #{remoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteType != null" >
+        REMOTE_TYPE = #{remoteType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawAmount != null" >
+        WITHDRAW_AMOUNT = #{withdrawAmount,jdbcType=BIGINT},
+      </if>
+      <if test="withdrawCommission != null" >
+        WITHDRAW_COMMISSION = #{withdrawCommission,jdbcType=BIGINT},
+      </if>
+      <if test="consumeAmount != null" >
+        CONSUME_AMOUNT = #{consumeAmount,jdbcType=BIGINT},
+      </if>
+      <if test="freezeAmount != null" >
+        FREEZE_AMOUNT = #{freezeAmount,jdbcType=BIGINT},
+      </if>
+      <if test="margin != null" >
+        MARGIN = #{margin,jdbcType=BIGINT},
+      </if>
+      <if test="paymentCode != null" >
+        PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawDate != null" >
+        WITHDRAW_DATE = #{withdrawDate,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawCount != null" >
+        WITHDRAW_COUNT = #{withdrawCount,jdbcType=INTEGER},
+      </if>
+      <if test="slcoinAmount != null">
+      	SLCOIN_AMOUNT = #{slcoinAmount,jdbcType=INTEGER},
+      </if>
+      <if test="systemCode != null" >
+        SYSTEM_CODE = #{systemCode,jdbcType=CHAR},
+      </if>
+      <if test="invitationCode != null" >
+        INVITATION_CODE = #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="cell != null" >
+        CELL = #{cell,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="tosendAmount != null" >
+        TOSEND_AMOUNT = #{tosendAmount,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zjlp.face.account.domain.Account" >
+    update account
+    set REMOTE_ID = #{remoteId,jdbcType=VARCHAR},
+      REMOTE_TYPE = #{remoteType,jdbcType=INTEGER},
+      TYPE = #{type,jdbcType=INTEGER},
+      WITHDRAW_AMOUNT = #{withdrawAmount,jdbcType=BIGINT},
+      WITHDRAW_COMMISSION = #{withdrawCommission,jdbcType=BIGINT},
+      CONSUME_AMOUNT = #{consumeAmount,jdbcType=BIGINT},
+      FREEZE_AMOUNT = #{freezeAmount,jdbcType=BIGINT},
+      MARGIN = #{margin,jdbcType=BIGINT},
+      PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+      WITHDRAW_DATE = #{withdrawDate,jdbcType=VARCHAR},
+      WITHDRAW_COUNT = #{withdrawCount,jdbcType=INTEGER},
+      SLCOIN_AMOUNT = #{slcoinAmount,jdbcType=INTEGER},
+      SYSTEM_CODE = #{systemCode,jdbcType=CHAR},
+      INVITATION_CODE = #{invitationCode,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      CELL = #{cell,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      TOSEND_AMOUNT = #{tosendAmount,jdbcType=BIGINT},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 支付服务所用接口  开始 -->
+  <!-- 平台赠送余额 -->
+  <update id="platfromSendAmount">
+  	update account
+  	set WITHDRAW_AMOUNT = WITHDRAW_AMOUNT - #{price,jdbcType=BIGINT},
+  	TOSEND_AMOUNT = TOSEND_AMOUNT - #{price,jdbcType=BIGINT}
+  	where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="sumAccountAmount">
+  	update account
+  	set WITHDRAW_AMOUNT = case when WITHDRAW_AMOUNT is null then 0 else WITHDRAW_AMOUNT end + #{price,jdbcType=BIGINT}
+  	where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询加锁 -->
+  <select id="selectByPrimaryKeyLock" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+      SELECT 
+          <include refid="Base_Column_List" />
+      FROM 
+          ACCOUNT
+      WHERE 
+          ID = #{id,jdbcType=BIGINT} 
+      FOR UPDATE
+  </select>
+  
+  <update id="sumAccountCommission">
+  	update account
+  	set WITHDRAW_COMMISSION = case when WITHDRAW_COMMISSION is null then 0 else WITHDRAW_COMMISSION end + #{price,jdbcType=BIGINT}
+  	where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="minusAccountAmount">
+  	update account
+  	set WITHDRAW_AMOUNT = WITHDRAW_AMOUNT - #{price,jdbcType=BIGINT}
+  	where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="sumConsumeAmount">
+  	update account
+  	set CONSUME_AMOUNT = case when CONSUME_AMOUNT is null then 0 else CONSUME_AMOUNT end + #{consumeAmount,jdbcType=BIGINT}
+  	where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="minusAccountCommission">
+  	update account
+  	set WITHDRAW_COMMISSION = WITHDRAW_COMMISSION - #{price,jdbcType=BIGINT}
+  	where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByInvitationCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where INVITATION_CODE = #{invitationCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByUserIdAndPaymentCode" parameterType="com.zjlp.face.account.domain.Account" resultType="java.lang.Integer">
+  	select COUNT(*) from account
+  	where REMOTE_ID = #{remoteId,jdbcType=VARCHAR}
+          AND REMOTE_TYPE = #{remoteType,jdbcType=INTEGER}
+	  	  AND PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR}
+	  	  AND TYPE in (0,1)
+  </select>
+  
+  <!-- 支付服务所用接口  结束 -->
+  
+  <select id="selectByRemoteIdLock" resultMap="BaseResultMap" parameterType="com.zjlp.face.account.domain.Account">
+      SELECT 
+          <include refid="Base_Column_List" />
+      FROM 
+          ACCOUNT
+      WHERE 
+          REMOTE_ID = #{remoteId,jdbcType=VARCHAR}
+          AND REMOTE_TYPE = #{remoteType,jdbcType=INTEGER}
+      FOR UPDATE
+  </select>
+  
+  <!-- 根据外键查找记录 -->
+  <select id="selectAccountByRemoteId" resultMap="BaseResultMap" parameterType="com.zjlp.face.account.domain.Account">
+      SELECT 
+          <include refid="Base_Column_List" />
+      FROM
+          ACCOUNT
+      WHERE
+          REMOTE_ID = #{remoteId,jdbcType=VARCHAR}
+          AND REMOTE_TYPE = #{remoteType,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据主键更新手机号码 -->
+  <update id="updateCellById" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         CELL = #{cell,jdbcType=VARCHAR},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据外键更新手机号码 -->
+  <update id="updateCellByRemoteId" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         CELL = #{cell,jdbcType=VARCHAR},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         REMOTE_ID = #{remoteId,jdbcType=VARCHAR}
+         AND REMOTE_TYPE = #{remoteType,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据主键更新支付密码 -->
+  <update id="updatePaymentCodeById" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据外键更新支付密码 -->
+  <update id="updatePaymentCodeByRmoteId" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         REMOTE_ID = #{remoteId,jdbcType=VARCHAR}
+         AND REMOTE_TYPE = #{remoteType,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据主键更新账户余额 -->
+  <update id="updateWithdrawAmount" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         WITHDRAW_AMOUNT = #{withdrawAmount,jdbcType=BIGINT},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据主键更新账户累计金额 -->
+  <update id="updateConsumeAmountById" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         CONSUME_AMOUNT = #{consumeAmount,jdbcType=BIGINT},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据主键更新可用佣金 -->
+  <update id="updateCommissionById" parameterType="com.zjlp.face.account.domain.Account">
+      UPDATE
+          ACCOUNT
+      SET
+         WITHDRAW_COMMISSION = #{withdrawCommission,jdbcType=BIGINT},
+         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      WHERE
+         ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据主键查询可用余额 -->
+  <select id="selectWithdrawAmountById" resultType="java.lang.Long" parameterType="java.lang.Long">
+      SELECT
+          WITHDRAW_AMOUNT
+      FROM
+          ACCOUNT
+      WHERE
+          ID = #{id,jdbcType=BIGINT} 
+  </select>
+  
+  <!-- 根据外键查询可用余额 -->
+  <select id="selectWithdrawAmountByRemoteId" resultType="java.lang.Long" parameterType="com.zjlp.face.account.domain.Account">
+      SELECT
+          WITHDRAW_AMOUNT
+      FROM
+          ACCOUNT
+      WHERE
+          REMOTE_ID = #{remoteId,jdbcType=VARCHAR}
+         AND REMOTE_TYPE = #{remoteType,jdbcType=INTEGER}
+  </select>
+  <update id="increaseSlcoin" parameterType="com.zjlp.face.account.domain.Account">
+  	update account set slcoin_amount=slcoin_amount+#{slcoinAmount} 
+  	where remote_id=#{remoteId} and remote_type=#{remoteType}
+  </update>
+  <update id="decreaseSlcoin" parameterType="com.zjlp.face.account.domain.Account">
+  	update account set slcoin_amount=slcoin_amount-#{slcoinAmount} 
+  	where remote_id=#{remoteId} and remote_type=#{remoteType}
+  </update>
+</mapper>

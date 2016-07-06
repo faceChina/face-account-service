@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjlp.face.account.mapper.AccountOperationRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zjlp.face.account.domain.AccountOperationRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="USER_ID" property="userId" jdbcType="BIGINT" />
+    <result column="SERIAL_NUMBER" property="serialNumber" jdbcType="VARCHAR" />
+    <result column="FROM_ACCOUNT_ID" property="fromAccountId" jdbcType="BIGINT" />
+    <result column="TO_ACCOUNT_ID" property="toAccountId" jdbcType="BIGINT" />
+    <result column="OPERATION_AMOUNT" property="operationAmount" jdbcType="BIGINT" />
+    <result column="FROM_AMOUNT_BEFORE" property="fromAmountBefore" jdbcType="BIGINT" />
+    <result column="FROM_COMMISSION_BEFORE" property="fromCommissionBefore" jdbcType="BIGINT" />
+    <result column="FROM_AMOUNT_AFTER" property="fromAmountAfter" jdbcType="BIGINT" />
+    <result column="FROM_COMMISSION_AFTER" property="fromCommissionAfter" jdbcType="BIGINT" />
+    <result column="TO_AMOUNT_BEFORE" property="toAmountBefore" jdbcType="BIGINT" />
+    <result column="TO_COMMISSION_BEFORE" property="toCommissionBefore" jdbcType="BIGINT" />
+    <result column="TO_AMOUNT_AFTER" property="toAmountAfter" jdbcType="BIGINT" />
+    <result column="TO_COMMISSION_AFTER" property="toCommissionAfter" jdbcType="BIGINT" />
+    <result column="BANK_CARD_ID" property="bankCardId" jdbcType="BIGINT" />
+    <result column="BANK_CARD" property="bankCard" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+    <result column="OPERATION_TYPE" property="operationType" jdbcType="INTEGER" />
+    <result column="WITHDRAWAL_STATES" property="withdrawalStates" jdbcType="INTEGER" />
+    <result column="PAY_WAY" property="payWayFlag" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DEAL" property="deal" jdbcType="INTEGER"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, SERIAL_NUMBER, FROM_ACCOUNT_ID, TO_ACCOUNT_ID, OPERATION_AMOUNT, FROM_AMOUNT_BEFORE, 
+    FROM_COMMISSION_BEFORE, FROM_AMOUNT_AFTER, FROM_COMMISSION_AFTER, TO_AMOUNT_BEFORE, 
+    TO_COMMISSION_BEFORE, TO_AMOUNT_AFTER, TO_COMMISSION_AFTER, BANK_CARD_ID, BANK_CARD, 
+    BANK_NAME,OPEN_ID, OPERATION_TYPE, WITHDRAWAL_STATES,PAY_WAY,REMARK, DEAL, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <sql id="Base_Column_List_extends" >
+    ID, USER_ID, SERIAL_NUMBER, FROM_ACCOUNT_ID, TO_ACCOUNT_ID, OPERATION_AMOUNT, FROM_AMOUNT_BEFORE, 
+    FROM_COMMISSION_BEFORE, FROM_AMOUNT_AFTER, FROM_COMMISSION_AFTER, TO_AMOUNT_BEFORE, 
+    TO_COMMISSION_BEFORE, TO_AMOUNT_AFTER, TO_COMMISSION_AFTER, BANK_CARD_ID, 
+    CASE WHEN aor.WITHDRAWAL_STATES = 0 
+         THEN (SELECT wr.RECIVE_BANK_CARD FROM WITHDRAW_RECORD AS wr WHERE wr.SERI_NUMBER = aor.SERIAL_NUMBER)
+         ELSE aor.BANK_CARD 
+    END AS BANK_CARD, 
+    BANK_NAME,OPEN_ID, OPERATION_TYPE, WITHDRAWAL_STATES,PAY_WAY,REMARK, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT 
+    	<include refid="Base_Column_List_extends" />
+    FROM 
+        ACCOUNT_OPERATION_RECORD AS aor
+    WHERE 
+        aor.ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from account_operation_record
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zjlp.face.account.domain.AccountOperationRecord" >
+    insert into account_operation_record (ID, USER_ID, SERIAL_NUMBER, FROM_ACCOUNT_ID, 
+      TO_ACCOUNT_ID, OPERATION_AMOUNT, FROM_AMOUNT_BEFORE, 
+      FROM_COMMISSION_BEFORE, FROM_AMOUNT_AFTER, FROM_COMMISSION_AFTER, 
+      TO_AMOUNT_BEFORE, TO_COMMISSION_BEFORE, TO_AMOUNT_AFTER, 
+      TO_COMMISSION_AFTER, BANK_CARD_ID, BANK_CARD, 
+      BANK_NAME,OPEN_ID, OPERATION_TYPE, WITHDRAWAL_STATES, PAY_WAY,REMARK, DEAL,
+      CREATE_TIME, UPDATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{userId}, #{serialNumber,jdbcType=VARCHAR}, #{fromAccountId,jdbcType=BIGINT}, 
+      #{toAccountId,jdbcType=BIGINT}, #{operationAmount,jdbcType=BIGINT}, #{fromAmountBefore,jdbcType=BIGINT}, 
+      #{fromCommissionBefore,jdbcType=BIGINT}, #{fromAmountAfter,jdbcType=BIGINT}, #{fromCommissionAfter,jdbcType=BIGINT}, 
+      #{toAmountBefore,jdbcType=BIGINT}, #{toCommissionBefore,jdbcType=BIGINT}, #{toAmountAfter,jdbcType=BIGINT}, 
+      #{toCommissionAfter,jdbcType=BIGINT}, #{bankCardId,jdbcType=BIGINT}, #{bankCard,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR},#{openId,jdbcType=VARCHAR}, #{operationType,jdbcType=INTEGER}, #{withdrawalStates,jdbcType=INTEGER}, 
+      #{payWayFlag,jdbcType=INTEGER}, #{remark,jdbcType=INTEGER}, #{deal},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zjlp.face.account.domain.AccountOperationRecord" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER">  
+        SELECT LAST_INSERT_ID();  
+    </selectKey>
+    insert into account_operation_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null">
+      	USER_ID,
+      </if>
+      <if test="serialNumber != null" >
+        SERIAL_NUMBER,
+      </if>
+      <if test="fromAccountId != null" >
+        FROM_ACCOUNT_ID,
+      </if>
+      <if test="toAccountId != null" >
+        TO_ACCOUNT_ID,
+      </if>
+      <if test="operationAmount != null" >
+        OPERATION_AMOUNT,
+      </if>
+      <if test="fromAmountBefore != null" >
+        FROM_AMOUNT_BEFORE,
+      </if>
+      <if test="fromCommissionBefore != null" >
+        FROM_COMMISSION_BEFORE,
+      </if>
+      <if test="fromAmountAfter != null" >
+        FROM_AMOUNT_AFTER,
+      </if>
+      <if test="fromCommissionAfter != null" >
+        FROM_COMMISSION_AFTER,
+      </if>
+      <if test="toAmountBefore != null" >
+        TO_AMOUNT_BEFORE,
+      </if>
+      <if test="toCommissionBefore != null" >
+        TO_COMMISSION_BEFORE,
+      </if>
+      <if test="toAmountAfter != null" >
+        TO_AMOUNT_AFTER,
+      </if>
+      <if test="toCommissionAfter != null" >
+        TO_COMMISSION_AFTER,
+      </if>
+      <if test="bankCardId != null" >
+        BANK_CARD_ID,
+      </if>
+      <if test="bankCard != null" >
+        BANK_CARD,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="operationType != null" >
+        OPERATION_TYPE,
+      </if>
+      <if test="withdrawalStates != null" >
+        WITHDRAWAL_STATES,
+      </if>
+      <if test="payWayFlag != null" >
+        PAY_WAY,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="deal != null">
+      	DEAL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+      	#{userId},
+      </if>
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAccountId != null" >
+        #{fromAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="toAccountId != null" >
+        #{toAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="operationAmount != null" >
+        #{operationAmount,jdbcType=BIGINT},
+      </if>
+      <if test="fromAmountBefore != null" >
+        #{fromAmountBefore,jdbcType=BIGINT},
+      </if>
+      <if test="fromCommissionBefore != null" >
+        #{fromCommissionBefore,jdbcType=BIGINT},
+      </if>
+      <if test="fromAmountAfter != null" >
+        #{fromAmountAfter,jdbcType=BIGINT},
+      </if>
+      <if test="fromCommissionAfter != null" >
+        #{fromCommissionAfter,jdbcType=BIGINT},
+      </if>
+      <if test="toAmountBefore != null" >
+        #{toAmountBefore,jdbcType=BIGINT},
+      </if>
+      <if test="toCommissionBefore != null" >
+        #{toCommissionBefore,jdbcType=BIGINT},
+      </if>
+      <if test="toAmountAfter != null" >
+        #{toAmountAfter,jdbcType=BIGINT},
+      </if>
+      <if test="toCommissionAfter != null" >
+        #{toCommissionAfter,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardId != null" >
+        #{bankCardId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCard != null" >
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalStates != null" >
+        #{withdrawalStates,jdbcType=INTEGER},
+      </if>
+      <if test="payWayFlag != null" >
+         #{payWayFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deal != null">
+      	#{deal},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjlp.face.account.domain.AccountOperationRecord" >
+    update account_operation_record
+    <set >
+      <if test="userId != null">
+      	USER_ID = #{userId},
+      </if>
+      <if test="serialNumber != null" >
+        SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAccountId != null" >
+        FROM_ACCOUNT_ID = #{fromAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="toAccountId != null" >
+        TO_ACCOUNT_ID = #{toAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="operationAmount != null" >
+        OPERATION_AMOUNT = #{operationAmount,jdbcType=BIGINT},
+      </if>
+      <if test="fromAmountBefore != null" >
+        FROM_AMOUNT_BEFORE = #{fromAmountBefore,jdbcType=BIGINT},
+      </if>
+      <if test="fromCommissionBefore != null" >
+        FROM_COMMISSION_BEFORE = #{fromCommissionBefore,jdbcType=BIGINT},
+      </if>
+      <if test="fromAmountAfter != null" >
+        FROM_AMOUNT_AFTER = #{fromAmountAfter,jdbcType=BIGINT},
+      </if>
+      <if test="fromCommissionAfter != null" >
+        FROM_COMMISSION_AFTER = #{fromCommissionAfter,jdbcType=BIGINT},
+      </if>
+      <if test="toAmountBefore != null" >
+        TO_AMOUNT_BEFORE = #{toAmountBefore,jdbcType=BIGINT},
+      </if>
+      <if test="toCommissionBefore != null" >
+        TO_COMMISSION_BEFORE = #{toCommissionBefore,jdbcType=BIGINT},
+      </if>
+      <if test="toAmountAfter != null" >
+        TO_AMOUNT_AFTER = #{toAmountAfter,jdbcType=BIGINT},
+      </if>
+      <if test="toCommissionAfter != null" >
+        TO_COMMISSION_AFTER = #{toCommissionAfter,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardId != null" >
+        BANK_CARD_ID = #{bankCardId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCard != null" >
+        BANK_CARD = #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        OPERATION_TYPE = #{operationType,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalStates != null" >
+        WITHDRAWAL_STATES = #{withdrawalStates,jdbcType=INTEGER},
+      </if>
+      <if test="deal != null">
+      	DEAL = #{deal},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zjlp.face.account.domain.AccountOperationRecord" >
+    update account_operation_record
+    set USER_ID = #{userId},
+      SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR},
+      FROM_ACCOUNT_ID = #{fromAccountId,jdbcType=BIGINT},
+      TO_ACCOUNT_ID = #{toAccountId,jdbcType=BIGINT},
+      OPERATION_AMOUNT = #{operationAmount,jdbcType=BIGINT},
+      FROM_AMOUNT_BEFORE = #{fromAmountBefore,jdbcType=BIGINT},
+      FROM_COMMISSION_BEFORE = #{fromCommissionBefore,jdbcType=BIGINT},
+      FROM_AMOUNT_AFTER = #{fromAmountAfter,jdbcType=BIGINT},
+      FROM_COMMISSION_AFTER = #{fromCommissionAfter,jdbcType=BIGINT},
+      TO_AMOUNT_BEFORE = #{toAmountBefore,jdbcType=BIGINT},
+      TO_COMMISSION_BEFORE = #{toCommissionBefore,jdbcType=BIGINT},
+      TO_AMOUNT_AFTER = #{toAmountAfter,jdbcType=BIGINT},
+      TO_COMMISSION_AFTER = #{toCommissionAfter,jdbcType=BIGINT},
+      BANK_CARD_ID = #{bankCardId,jdbcType=BIGINT},
+      BANK_CARD = #{bankCard,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
+      OPERATION_TYPE = #{operationType,jdbcType=INTEGER},
+      WITHDRAWAL_STATES = #{withdrawalStates,jdbcType=INTEGER},
+      DEAL = #{deal},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据流水号和操作类型查询操作记录 -->
+  <select id="selectRecordListBySerialNo" resultMap="BaseResultMap" parameterType="com.zjlp.face.account.domain.AccountOperationRecord">
+      SELECT
+          <include refid="Base_Column_List" />
+      FROM 
+          ACCOUNT_OPERATION_RECORD
+      WHERE
+          SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR}
+          AND OPERATION_TYPE = #{operationType,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 资金流转记录查询 -->
+  <select id="selectRecordPage" resultMap="BaseResultMap" parameterType="com.zjlp.face.account.domain.AccountDo">
+      SELECT
+          <include refid="Base_Column_List_extends"/>
+      FROM 
+          ACCOUNT_OPERATION_RECORD AS aor
+      WHERE
+          <![CDATA[ (aor.WITHDRAWAL_STATES IS NULL OR aor.WITHDRAWAL_STATES = 0) ]]>
+          <if test="aide.startTime != null">
+              <![CDATA[ AND aor.CREATE_TIME >= #{aide.startTime,jdbcType=TIMESTAMP} ]]>
+          </if>
+          <if test="aide.endTime!=null">
+              <![CDATA[ AND aor.CREATE_TIME < #{aide.endTime,jdbcType=TIMESTAMP}]]>
+          </if>
+          <if test="userId != null">
+          	AND aor.USER_ID = #{userId}
+          </if>
+          AND 
+          (
+            (
+             aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+        	 AND aor.OPERATION_TYPE IN
+        		<foreach item="type" collection="fromTypeList" open="(" separator="," close=")">
+			  		#{type, jdbcType=INTEGER}
+			  	</foreach>
+            )
+            OR 
+            (
+             aor.TO_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+             AND aor.OPERATION_TYPE IN 
+                <foreach item="type" collection="toTypeList" open="(" separator="," close=")">
+			  		#{type, jdbcType=INTEGER}
+			  	</foreach>
+             )
+         )
+      ORDER BY aor.CREATE_TIME DESC
+  	  LIMIT #{aide.startNum}, #{aide.pageSizeNum}
+  </select>
+  
+  <select id="findUserOperationRecord" resultMap="BaseResultMap" parameterType="com.zjlp.face.account.domain.AccountDo">
+  	 SELECT
+          <include refid="Base_Column_List_extends"/>
+      FROM 
+          ACCOUNT_OPERATION_RECORD AS aor
+      WHERE 1 = 1
+          <if test="aide.startTime != null">
+              <![CDATA[ AND aor.CREATE_TIME >= #{aide.startTime,jdbcType=TIMESTAMP} ]]>
+          </if>
+          <if test="aide.endTime!=null">
+              <![CDATA[ AND aor.CREATE_TIME < #{aide.endTime,jdbcType=TIMESTAMP}]]>
+          </if>
+          <if test="userId != null">
+          	and USER_ID = #{userId}
+          </if>
+           <choose>
+          	<when test="status == null">
+          		AND 
+	          (
+	            (
+	             aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	        	 AND aor.OPERATION_TYPE IN
+	        		<foreach item="type" collection="fromTypeList" open="(" separator="," close=")">
+				  		#{type, jdbcType=INTEGER}
+				  	</foreach>
+	            )
+	            OR 
+	            (
+	             aor.TO_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	             AND aor.OPERATION_TYPE IN 
+	                <foreach item="type" collection="toTypeList" open="(" separator="," close=")">
+				  		#{type, jdbcType=INTEGER}
+				  	</foreach>
+	             )
+         		)
+          	</when>
+          	<otherwise>
+          		<if test="type == 1">
+	          		AND aor.TO_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	          		AND aor.OPERATION_TYPE IN 
+		          		<foreach item="type" collection="status" open="(" separator="," close=")">
+		          			#{type, jdbcType=INTEGER}
+		          		</foreach>
+          		</if>
+          		<if test="type == 2">
+          			AND aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	          		AND aor.OPERATION_TYPE IN 
+		          		<foreach item="type" collection="status" open="(" separator="," close=")">
+		          			#{type, jdbcType=INTEGER}
+		          		</foreach>
+          		</if>
+          		<if test="type == 3">
+          			AND aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+          			AND aor.OPERATION_TYPE IN 
+          		<foreach item="type" collection="status" open="(" separator="," close=")">
+          			#{type, jdbcType=INTEGER}
+          		</foreach>
+          		</if>
+          	</otherwise>
+          </choose>
+      ORDER BY aor.CREATE_TIME DESC
+  	  LIMIT #{aide.startNum}, #{aide.pageSizeNum}
+  </select>
+  
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.zjlp.face.account.domain.AccountDo">
+      SELECT
+          COUNT(1)
+      FROM
+          ACCOUNT_OPERATION_RECORD AS aor
+      WHERE
+          <![CDATA[ (aor.WITHDRAWAL_STATES IS NULL OR aor.WITHDRAWAL_STATES = 0) ]]>
+          <if test="aide.startTime != null">
+              <![CDATA[ AND aor.CREATE_TIME >= #{aide.startTime,jdbcType=TIMESTAMP} ]]>
+          </if>
+          <if test="aide.endTime!=null">
+              <![CDATA[ AND aor.CREATE_TIME < #{aide.endTime,jdbcType=TIMESTAMP}]]>
+          </if>
+          <if test="userId != null">
+          	AND aor.USER_ID = #{userId}
+          </if>
+          AND 
+          (
+            (
+             aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+        	 AND aor.OPERATION_TYPE IN
+        		<foreach item="type" collection="fromTypeList" open="(" separator="," close=")">
+			  		#{type, jdbcType=INTEGER}
+			  	</foreach>
+            )
+            OR 
+            (
+             aor.TO_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+             AND aor.OPERATION_TYPE IN 
+                <foreach item="type" collection="toTypeList" open="(" separator="," close=")">
+			  		#{type, jdbcType=INTEGER}
+			  	</foreach>
+             )
+         )
+  </select>
+  
+  <select id="getCountWithStatus" resultType="java.lang.Integer" parameterType="com.zjlp.face.account.domain.AccountDo">
+  	SELECT
+          COUNT(1)
+      FROM
+          ACCOUNT_OPERATION_RECORD AS aor
+      WHERE 1 = 1
+          <if test="aide.startTime != null">
+              <![CDATA[ AND aor.CREATE_TIME >= #{aide.startTime,jdbcType=TIMESTAMP} ]]>
+          </if>
+          <if test="aide.endTime!=null">
+              <![CDATA[ AND aor.CREATE_TIME < #{aide.endTime,jdbcType=TIMESTAMP}]]>
+          </if>
+          <if test="userId != null">
+          	AND aor.USER_ID = #{userId}
+          </if>
+          <choose>
+          	<when test="status == null">
+          		AND 
+	          (
+	            (
+	             aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	        	 AND aor.OPERATION_TYPE IN
+	        		<foreach item="type" collection="fromTypeList" open="(" separator="," close=")">
+				  		#{type, jdbcType=INTEGER}
+				  	</foreach>
+	            )
+	            OR 
+	            (
+	             aor.TO_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	             AND aor.OPERATION_TYPE IN 
+	                <foreach item="type" collection="toTypeList" open="(" separator="," close=")">
+				  		#{type, jdbcType=INTEGER}
+				  	</foreach>
+	             )
+         		)
+          	</when>
+          	<otherwise>
+          		<if test="type == 1">
+	          		AND aor.TO_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	          		AND aor.OPERATION_TYPE IN 
+		          		<foreach item="type" collection="status" open="(" separator="," close=")">
+		          			#{type, jdbcType=INTEGER}
+		          		</foreach>
+          		</if>
+          		<if test="type == 2">
+          			AND aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+	          		AND aor.OPERATION_TYPE IN 
+		          		<foreach item="type" collection="status" open="(" separator="," close=")">
+		          			#{type, jdbcType=INTEGER}
+		          		</foreach>
+          		</if>
+          		<if test="type == 3">
+          			AND aor.FROM_ACCOUNT_ID = #{accountId, jdbcType=BIGINT}
+          			AND aor.OPERATION_TYPE IN 
+          		<foreach item="type" collection="status" open="(" separator="," close=")">
+          			#{type, jdbcType=INTEGER}
+          		</foreach>
+          		</if>
+          	</otherwise>
+          </choose>
+  </select>
+  <select id="getMaxId" resultType="java.lang.Long">
+  	select max(id) from account_operation_record
+  </select>
+  <select id="getUndealSumAmount" resultType="java.lang.Long">
+  	select sum(operation_amount) from account_operation_record
+  	where deal=0 and <![CDATA[id<=#{id} ]]>
+  	<choose>
+  		<when test="type == 1">
+  			and to_account_id=1
+  		</when>
+  		<otherwise>
+  			and from_account_id=1
+  		</otherwise>
+  	</choose>
+  </select>
+  <update id="updateUndealRecord">
+  	update account_operation_record set deal=1
+  	where deal=0 and <![CDATA[id<=#{maxId} ]]>
+  </update>
+  
+  <select id="selectCounts" resultType="java.lang.Integer" parameterType="com.zjlp.face.account.domain.AccountOperationRecord">
+       SELECT
+           COUNT(1)
+       FROM
+           ACCOUNT_OPERATION_RECORD
+       WHERE
+           SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR}
+       AND
+	       FROM_ACCOUNT_ID = #{fromAccountId,jdbcType=BIGINT}
+	   AND
+	       TO_ACCOUNT_ID = #{toAccountId,jdbcType=BIGINT}
+	   AND
+	       OPERATION_TYPE = #{operationType,jdbcType=INTEGER}
+  </select>
+</mapper>

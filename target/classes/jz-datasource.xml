@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<!-- ======================================================================== -->
+	<!-- sub-project:deskC DataSource定义。 -->
+	<!-- ======================================================================== -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://192.168.1.251:3306/wgj_dev_s4?characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="jzkf" />
+		<property name="password" value="jzwgjkf" />
+		<!-- Connection Pooling DBCP -->
+		<property name="initialSize" value="50" />
+		<property name="maxActive" value="1000" />
+		<property name="maxIdle" value="30" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+	<!-- ======================================================================== -->
+	<!-- sub-project:deskC TransactionManager定义。 -->
+	<!-- ======================================================================== -->
+	<bean id="jzTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="jzTransactionManager" />
+	<!-- ======================================================================== -->
+	<!-- sub-project:deskC mybatis SQL map定义。 -->
+	<!-- ======================================================================== -->
+	<bean id="jzSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:jz-config.xml" />
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="jzSqlSessionFactory" />
+	</bean>
+	
+	<bean id="testDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://192.168.1.123:3308/wgj_test" />
+		<property name="username" value="jzcs" />
+		<property name="password" value="jzwgjcs" />
+		<!-- Connection Pooling DBCP -->
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="100" />
+		<property name="maxIdle" value="30" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+	<!-- ======================================================================== -->
+	<!-- sub-project:deskC TransactionManager定义。 -->
+	<!-- ======================================================================== -->
+	<bean id="testTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="testDataSource" />
+	</bean>
+	<!-- <tx:annotation-driven transaction-manager="testTransactionManager" /> -->
+	<!-- ======================================================================== -->
+	<!-- sub-project:deskC mybatis SQL map定义。 -->
+	<!-- ======================================================================== -->
+	<bean id="testSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="testDataSource" />
+		<property name="configLocation" value="classpath:jz-config.xml" />
+	</bean>
+	<bean id="testsqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="testSqlSessionFactory" />
+	</bean>
+	
+</beans>

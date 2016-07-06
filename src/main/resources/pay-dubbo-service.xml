@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	http://www.springframework.org/schema/beans/spring-beans.xsd         
+	http://code.alibabatech.com/schema/dubbo         
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd         ">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="pay-service" />
+
+	<dubbo:registry address="${dubbo.registry.address}" />
+
+	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" />
+
+	<dubbo:service interface="com.zjlp.face.account.service.PaymentService"
+		ref="paymentService" version="${dubbo.payService.version}" />
+		
+	<dubbo:service interface="com.zjlp.face.account.service.AccountService"
+		ref="accountService" version="${dubbo.accountService.version}" />
+		
+	<dubbo:service interface="com.zjlp.face.account.service.WithdrawService"
+		ref="withdrawService" version="${dubbo.withdrawService.version}" />
+		
+	<dubbo:service interface="com.zjlp.face.account.service.BindPayService"
+		ref="bindPayService" version="${dubbo.bindPayService.version}" />
+		
+	<dubbo:service interface="com.zjlp.face.account.service.AlipayService"
+		ref="alipayService" version="${dubbo.alipayService.version}" />
+		
+	<dubbo:service interface="com.zjlp.face.account.service.LakalaService"
+		ref="lakalaService" version="${dubbo.lakalaService.version}" />
+</beans>

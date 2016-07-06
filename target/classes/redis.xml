@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<redis>
+	<nodes>
+		<node name="common" passwd="linyisheng">
+			<timeout>100</timeout>
+			<serverList>
+				<server>192.168.1.185:6379</server>
+			</serverList>
+		</node>
+	</nodes>
+</redis>
